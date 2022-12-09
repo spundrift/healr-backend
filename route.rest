@@ -1,0 +1,16 @@
+GET http://localhost:3001/
+
+###
+GET http://localhost:3001/psychologists/list
+
+###
+
+POST http://localhost:8080/api/psychologists/login
+content-type: application/json
+
+{
+    "email": "admin@newadmin.com",
+    "password": "123456"
+}
+
+ 

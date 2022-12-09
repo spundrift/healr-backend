@@ -3,21 +3,24 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
+const moragan = require("morgan");
+const connectDB = require("./config/db");
+
+// rest object
 const app = express();
-const indexRouter = require("./routes/index");
-const mongoose = require("mongoose");
-mongoose.set("strictQuery", true);
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-});
 
-const db = mongoose.connection;
+// Mongo DB Connection
+connectDB();
 
-db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("Connected to Mongoose"));
+//middlewares
+app.use(express.json());
+app.use(moragan("dev"));
 
-app.use("/", indexRouter);
+// routes
+app.use("/api/psychologists", require("./routes/psychologistsRouter"));
 
-app.listen(3001, () => {
-  console.log("Server started!");
+//listen port
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`Server started at PORT - ${process.env.PORT}`);
 });
